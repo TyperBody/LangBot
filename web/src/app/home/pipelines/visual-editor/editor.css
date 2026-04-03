@@ -1,0 +1,169 @@
+/* Visual Pipeline Editor — custom ReactFlow overrides */
+
+/* Smoother edge selection */
+.react-flow__edge:hover .react-flow__edge-path {
+  stroke: #64748b !important;
+  stroke-width: 2.5 !important;
+}
+
+/* Handle pulse animation on connection drag */
+.react-flow__handle.connecting {
+  animation: handle-pulse 1s ease infinite;
+}
+
+@keyframes handle-pulse {
+  0%, 100% { box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2); }
+  50% { box-shadow: 0 0 0 6px rgba(59, 130, 246, 0.1); }
+}
+
+/* Selection box */
+.react-flow__selection {
+  background: rgba(59, 130, 246, 0.06) !important;
+  border: 1px solid rgba(59, 130, 246, 0.3) !important;
+  border-radius: 8px;
+}
+
+/* Node selection */
+.react-flow__node.selected > div {
+  transition: all 0.2s ease;
+}
+
+/* Minimap overrides */
+.react-flow__minimap {
+  border-radius: 12px !important;
+  overflow: hidden;
+}
+
+/* Controls overrides */
+.react-flow__controls {
+  border-radius: 12px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+  overflow: hidden;
+}
+
+.react-flow__controls-button {
+  border-bottom: 1px solid #f1f5f9 !important;
+}
+
+/* Scrollbar styling */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* Dark mode scrollbar */
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Drop zone indicator */
+.react-flow__pane.drop-target::after {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border: 2px dashed rgba(59, 130, 246, 0.4);
+  border-radius: 16px;
+  pointer-events: none;
+  animation: drop-zone-fade 0.3s ease;
+}
+
+@keyframes drop-zone-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Attribution hide */
+.react-flow__attribution {
+  display: none !important;
+}
+
+/* Connection line style */
+.react-flow__connection-path {
+  stroke: #3b82f6 !important;
+  stroke-width: 2 !important;
+  stroke-dasharray: 5 5;
+}
+
+/* ======================== DynamicForm overrides for narrow panel ======================== */
+
+/* Constrain all elements inside the visual editor dynamic form wrapper */
+.visual-editor-dynamic-form {
+  font-size: 12px;
+  overflow: hidden;
+  width: 100%;
+}
+
+/* Force block-level and flex containers to respect the container width */
+.visual-editor-dynamic-form div,
+.visual-editor-dynamic-form form,
+.visual-editor-dynamic-form input,
+.visual-editor-dynamic-form textarea,
+.visual-editor-dynamic-form select,
+.visual-editor-dynamic-form button,
+.visual-editor-dynamic-form p,
+.visual-editor-dynamic-form span,
+.visual-editor-dynamic-form label {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  min-width: 0 !important;
+}
+
+.visual-editor-dynamic-form input,
+.visual-editor-dynamic-form textarea,
+.visual-editor-dynamic-form select,
+.visual-editor-dynamic-form button {
+  font-size: 12px !important;
+}
+
+/* Compact form spacing */
+.visual-editor-dynamic-form form > div {
+  gap: 0.625rem !important;
+}
+
+/* Smaller form labels */
+.visual-editor-dynamic-form label {
+  font-size: 11px !important;
+}
+
+/* Smaller form descriptions */
+.visual-editor-dynamic-form p {
+  font-size: 11px !important;
+  line-height: 1.4;
+}
+
+/* Compact form submit button — hide it (form auto-submits on change) */
+.visual-editor-dynamic-form form > button[type="submit"] {
+  display: none !important;
+}
+
+/* Ensure select triggers don't overflow */
+.visual-editor-dynamic-form [data-slot="select-trigger"],
+.visual-editor-dynamic-form [role="combobox"] {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Fix flex containers breaking out of narrow panel */
+.visual-editor-dynamic-form .flex {
+  min-width: 0 !important;
+}
+
+/* Compact spacing for DynamicForm space-y containers */
+.visual-editor-dynamic-form .space-y-6 > :not(:first-child) {
+  margin-top: 0.5rem !important;
+}
+.visual-editor-dynamic-form .space-y-4 > :not(:first-child) {
+  margin-top: 0.375rem !important;
+}

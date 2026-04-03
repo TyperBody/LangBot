@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, lazy } from 'react';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 
 // Layouts
@@ -21,6 +21,9 @@ import PluginsPage from '@/app/home/plugins/page';
 import MarketPage from '@/app/home/market/page';
 import MCPPage from '@/app/home/mcp/page';
 import KnowledgePage from '@/app/home/knowledge/page';
+
+// Lazy-loaded pages
+const VisualEditorPage = lazy(() => import('@/app/home/pipelines/visual-editor/VisualEditorPage'));
 
 const Loading = () => <div>Loading...</div>;
 
@@ -98,6 +101,14 @@ export const router = createBrowserRouter([
         <HomeLayout>
           <PipelinesPage />
         </HomeLayout>
+      </Suspense>
+    ),
+  },
+  {
+    path: '/home/pipelines/visual-editor',
+    element: (
+      <Suspense fallback={<Loading />}>
+        <VisualEditorPage />
       </Suspense>
     ),
   },

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
@@ -7,7 +7,9 @@ import DebugDialog from '@/app/home/pipelines/components/debug-dialog/DebugDialo
 import PipelineMonitoringTab from '@/app/home/pipelines/components/monitoring-tab/PipelineMonitoringTab';
 import { useSidebarData } from '@/app/home/components/home-sidebar/SidebarDataContext';
 import { useTranslation } from 'react-i18next';
-import { Settings, Bug, BarChart3 } from 'lucide-react';
+import { Settings, Bug, BarChart3, Workflow } from 'lucide-react';
+
+const VisualEditor = lazy(() => import('@/app/home/pipelines/visual-editor/VisualEditor'));
 
 export default function PipelineDetailContent({ id }: { id: string }) {
   const isCreateMode = id === 'new';
@@ -80,9 +82,11 @@ export default function PipelineDetailContent({ id }: { id: string }) {
       {/* Sticky Header: title + save button */}
       <div className="flex items-center justify-between pb-4 shrink-0">
         <h1 className="text-xl font-semibold">{t('pipelines.editPipeline')}</h1>
-        <Button type="submit" form="pipeline-form" disabled={!formDirty}>
-          {t('common.save')}
-        </Button>
+        {activeTab !== 'visual' && (
+          <Button type="submit" form="pipeline-form" disabled={!formDirty}>
+            {t('common.save')}
+          </Button>
+        )}
       </div>
 
       {/* Horizontal Tabs */}
@@ -96,6 +100,10 @@ export default function PipelineDetailContent({ id }: { id: string }) {
           <TabsTrigger value="config" className="gap-1.5">
             <Settings className="size-3.5" />
             {t('pipelines.configuration')}
+          </TabsTrigger>
+          <TabsTrigger value="visual" className="gap-1.5">
+            <Workflow className="size-3.5" />
+            可视化编排
           </TabsTrigger>
           <TabsTrigger value="debug" className="gap-1.5">
             <Bug className="size-3.5" />
@@ -130,6 +138,16 @@ export default function PipelineDetailContent({ id }: { id: string }) {
             onCancel={() => navigate('/home/pipelines')}
             onDirtyChange={setFormDirty}
           />
+        </TabsContent>
+
+        {/* Tab: Visual Editor */}
+        <TabsContent
+          value="visual"
+          className="flex-1 min-h-0 mt-0 -mx-4 -mb-4"
+        >
+          <Suspense fallback={<div className="flex h-full items-center justify-center text-muted-foreground">加载可视化编辑器...</div>}>
+            <VisualEditor pipelineId={id} />
+          </Suspense>
         </TabsContent>
 
         {/* Tab: Debug */}
